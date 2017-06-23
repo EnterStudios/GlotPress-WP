@@ -1,12 +1,70 @@
 <?php
+/**
+ * GlotPress Format Mac OS X/iOS Strings class
+ *
+ * @since 1.0.0
+ *
+ * @package GlotPress
+ */
 
+/**
+ * Format class used to support Mac OS X/iOS Strings file format.
+ *
+ * @since 1.0.0
+ */
 class GP_Format_Strings extends GP_Format {
-
+	/**
+	 * Name of file format, used in file format dropdowns.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
 	public $name = 'Mac OS X / iOS Strings File (.strings)';
+
+	/**
+	 * File extension of the file format, used to autodetect formats and when creating the output file names.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
 	public $extension = 'strings';
 
+	/**
+	 * Which plural rules to use for this format.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @var string
+	 */
+	public $plurals_format = 'cldr';
+
+	/**
+	 * Storage for the export file contents while it is being generated.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
 	public $exported = '';
 
+	/**
+	 * Generates a string the contains the $entries to export in the .strings file format.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param GP_Project         $project         The project the strings are being exported for, not used
+	 *                                            in this format but part of the scaffold of the parent object.
+	 * @param GP_Locale          $locale          The locale object the strings are being exported for, not used
+	 *                                            in this format but part of the scaffold of the parent object.
+	 * @param GP_Translation_Set $translation_set The locale object the strings are being
+	 *                                            exported for. not used in this format but part
+	 *                                            of the scaffold of the parent object.
+	 * @param GP_Translation     $entries         The entries to export.
+	 *
+	 * @return string The exported .strings string.
+	 */
 	public function print_exported_file( $project, $locale, $translation_set, $entries ) {
 		$prefix = pack( 'CC', 0xff, 0xfe ); // Add BOM
 
@@ -44,6 +102,15 @@ class GP_Format_Strings extends GP_Format {
 		return $prefix . mb_convert_encoding( $result, 'UTF-16LE' );
 	}
 
+	/**
+	 * Reads a set of original strings from an .strings file.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $file_name The name of the uploaded file.
+	 *
+	 * @return Translations|bool The extracted originals on success, false on failure.
+	 */
 	public function read_originals_from_file( $file_name ) {
 		$entries = new Translations;
 		$file = file_get_contents( $file_name );
@@ -86,7 +153,16 @@ class GP_Format_Strings extends GP_Format {
 		return $entries;
 	}
 
-
+	/**
+	 * Compare two context objects for a usort callback.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $a The first object to compare.
+	 * @param string $b The second object to compare.
+	 *
+	 * @return int Returns the result of the comparison.
+	 */
 	private function sort_entries( $a, $b ) {
 		if ( $a->context == $b->context ) {
 			return 0;
@@ -95,10 +171,28 @@ class GP_Format_Strings extends GP_Format {
 		return ( $a->context > $b->context ) ? +1 : -1;
 	}
 
+	/**
+	 * Unescapes a string with c style slashes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $string The string to unescape.
+	 *
+	 * @return string Returns the unescaped string.
+	 */
 	private function unescape( $string ) {
 		return stripcslashes( $string );
 	}
 
+	/**
+	 * Escapes a string with c style slashes and html entities as required.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $string The string to escape.
+	 *
+	 * @return string Returns the escaped string.
+	 */
 	private function escape( $string ) {
 		return addcslashes( $string, '"\\/' );
 	}
