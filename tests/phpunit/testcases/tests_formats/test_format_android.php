@@ -15,6 +15,9 @@ class GP_Test_Format_Android extends GP_UnitTestCase {
 			array( 'with_amps', 'me & you are not &amp;', 'аз & ти не сме &amp;', '' ),
 			array( 'with_comment', 'baba', 'баба', 'Me, myself & Irene' ),
 		);
+		$this->plural_entries = array(
+			array( 'with_plurals', 'Updated %s value', 'Updated %s value', 'Updated %s values', '' ),
+		);			
 	}
 
 	function test_export() {
@@ -24,11 +27,22 @@ class GP_Test_Format_Android extends GP_UnitTestCase {
 		$entries_for_export = array();
 
 		foreach( $this->entries as $sample ) {
-			list( $context, $original, $translation ) = $sample;
+			list( $context, $original, $translation, $comment ) = $sample;
 			$entries_for_export[] = (object)array(
 				'context' => $context,
 				'singular' => $original,
 				'translations' => array($translation),
+				'is_plural' => false,
+			);
+		}
+
+		foreach( $this->plural_entries as $sample ) {
+			list( $context, $original, $translation, $plural_translation, $comment ) = $sample;
+			$entries_for_export[] = (object)array(
+				'context' => $context,
+				'singular' => $original,
+				'translations' => array( $translation, $plural_translation ),
+				'is_plural' => true,
 			);
 		}
 
