@@ -115,25 +115,35 @@ if ( is_object( $glossary ) ) {
 		<p class="original"><?php echo prepare_original( $singular ); ?></p>
 		<?php textareas( $t, array( $can_edit, $can_approve_translation ) ); ?>
 		<?php else: ?>
-			<?php if ( 'gettext' === $project->plurals_type && $nplurals == 2 && $locale->plural_expression == 'n != 1'): ?>
-				<p><?php printf(__( 'Singular: %s', 'glotpress' ), '<span class="original">'. $singular .'</span>'); ?></p>
+			<?php if ( 'gettext' === $project->plurals_type && 2 === $nplurals && 'n != 1' === $locale->plural_expression ) : ?>
+				<p><?php
+				// Translators: %s is the original (singlular) string.
+				printf( __( 'Singular: %s', 'glotpress' ), '<span class="original">' . $singular . '</span>' ); ?></p>
 				<?php textareas( $t, array( $can_edit, $can_approve ), 0 ); ?>
 				<p class="clear">
-					<?php printf(__( 'Plural: %s', 'glotpress' ), '<span class="original">'. $plural .'</span>'); ?>
+					<?php
+					// Translators: %s is the original plural string.
+					printf( __( 'Plural: %s', 'glotpress' ), '<span class="original">' . $plural . '</span>' ); ?>
 				</p>
 				<?php textareas( $t, array( $can_edit, $can_approve ), 1 ); ?>
-			<?php else: ?>
+			<?php else : ?>
 				<!--
 				TODO: labels for each plural textarea and a sample number
 				-->
-				<p><?php printf(__( 'Singular: %s', 'glotpress' ), '<span class="original">'. $singular .'</span>'); ?></p>
+				<p><?php
+				// Translators: %s is the original (singlular) string.
+				printf( __( 'Singular: %s', 'glotpress' ), '<span class="original">' . $singular . '</span>' ); ?></p>
 				<p class="clear">
-					<?php printf(__( 'Plural: %s', 'glotpress' ), '<span class="original">'. $plural .'</span>'); ?>
+					<?php
+					// Translators: %s is the original plural string.
+					printf( __( 'Plural: %s', 'glotpress' ), '<span class="original">' . $plural . '</span>' ); ?>
 				</p>
-				<?php foreach( range( 0, $nplurals - 1 ) as $plural_index ): ?>
+				<?php foreach ( range( 0, $nplurals - 1 ) as $plural_index ) : ?>
 					<?php if ( $nplurals > 1 ) : ?>
-					<p class="plural-numbers"><?php printf( __( 'This plural form is used for numbers like: %s', 'glotpress' ),
-							'<span class="numbers">' . $locale->get_plural_example( $project->plurals_type, $plural_index ) . '</span>' ); ?></p>
+					<p class="plural-numbers"><?php
+					// Translators: %s is the list of examples.
+					printf( __( 'This plural form is used for numbers like: %s', 'glotpress' ),
+					'<span class="numbers">' . $locale->get_plural_example( $project->plurals_type, $plural_index ) . '</span>' ); // WPCS: XSS ok. ?></p>
 					<?php endif; ?>
 					<?php textareas( $t, array( $can_edit, $can_approve ), $plural_index ); ?>
 				<?php endforeach; ?>
