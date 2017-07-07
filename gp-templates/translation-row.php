@@ -108,13 +108,14 @@ if ( is_object( $glossary ) ) {
 		<?php
 			$singular = isset( $t->singular_glossary_markup ) ? $t->singular_glossary_markup : esc_translation( $t->singular );
 			$plural   = isset( $t->plural_glossary_markup ) ? $t->plural_glossary_markup : esc_translation( $t->plural );
+			$nplurals = $locale->get_nplurals( $project->plurals_type );
 		?>
 
 		<?php if ( ! $t->plural ): ?>
 		<p class="original"><?php echo prepare_original( $singular ); ?></p>
 		<?php textareas( $t, array( $can_edit, $can_approve_translation ) ); ?>
 		<?php else: ?>
-			<?php if ( $locale->nplurals == 2 && $locale->plural_expression == 'n != 1'): ?>
+			<?php if ( 'gettext' === $project->plurals_type && $nplurals == 2 && $locale->plural_expression == 'n != 1'): ?>
 				<p><?php printf(__( 'Singular: %s', 'glotpress' ), '<span class="original">'. $singular .'</span>'); ?></p>
 				<?php textareas( $t, array( $can_edit, $can_approve ), 0 ); ?>
 				<p class="clear">
@@ -129,10 +130,10 @@ if ( is_object( $glossary ) ) {
 				<p class="clear">
 					<?php printf(__( 'Plural: %s', 'glotpress' ), '<span class="original">'. $plural .'</span>'); ?>
 				</p>
-				<?php foreach( range( 0, $locale->nplurals - 1 ) as $plural_index ): ?>
-					<?php if ( $locale->nplurals > 1 ): ?>
-					<p class="plural-numbers"><?php printf(__( 'This plural form is used for numbers like: %s', 'glotpress' ),
-							'<span class="numbers">'.implode(', ', $locale->numbers_for_index( $plural_index ) ).'</span>' ); ?></p>
+				<?php foreach( range( 0, $nplurals - 1 ) as $plural_index ): ?>
+					<?php if ( $nplurals > 1 ) : ?>
+					<p class="plural-numbers"><?php printf( __( 'This plural form is used for numbers like: %s', 'glotpress' ),
+							'<span class="numbers">' . $locale->get_plural_example( $project->plurals_type, $plural_index ) . '</span>' ); ?></p>
 					<?php endif; ?>
 					<?php textareas( $t, array( $can_edit, $can_approve ), $plural_index ); ?>
 				<?php endforeach; ?>
