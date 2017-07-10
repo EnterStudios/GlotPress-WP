@@ -11,7 +11,7 @@ include( '../../locales/locales.php' );
 /*
  * Get the CLDR Data.
  *
- * By defualt it is read from the plurals.json file in the current directory, you can download
+ * By default it is read from the plurals.json file in the current directory, you can download
  * the file from the CLDR GitHub project:
  *
  *     https://raw.githubusercontent.com/unicode-cldr/cldr-core/master/supplemental/plurals.json
@@ -23,7 +23,7 @@ $cldr_locales = $cldr_data['supplemental']['plurals-type-cardinal'];
 // Create a working locales object.
 $locales = new GP_Locales;
 
-// Run through the locales and see if we can find a mathcing CLDR locale.
+// Run through the locales and see if we can find a matching CLDR locale.
 foreach ( $locales->locales as $key => $value ) {
 	// Flush the old CLDR data.
 	unset( $locales->locales[ $key ]->cldr_code );
