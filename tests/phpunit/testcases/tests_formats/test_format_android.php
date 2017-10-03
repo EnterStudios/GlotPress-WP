@@ -17,7 +17,7 @@ class GP_Test_Format_Android extends GP_UnitTestCase {
 		);
 		$this->plural_entries = array(
 			array( 'with_plurals', 'Updated %s value', 'Updated %s value', 'Updated %s values', '' ),
-		);			
+		);
 	}
 
 	function test_export() {
@@ -28,7 +28,7 @@ class GP_Test_Format_Android extends GP_UnitTestCase {
 
 		foreach( $this->entries as $sample ) {
 			list( $context, $original, $translation, $comment ) = $sample;
-			$entries_for_export[] = (object)array(
+			$entries_for_export[] = (object) array(
 				'context' => $context,
 				'singular' => $original,
 				'translations' => array($translation),
@@ -36,9 +36,9 @@ class GP_Test_Format_Android extends GP_UnitTestCase {
 			);
 		}
 
-		foreach( $this->plural_entries as $sample ) {
+		foreach ( $this->plural_entries as $sample ) {
 			list( $context, $original, $translation, $plural_translation, $comment ) = $sample;
-			$entries_for_export[] = (object)array(
+			$entries_for_export[] = (object) array(
 				'context' => $context,
 				'singular' => $original,
 				'translations' => array( $translation, $plural_translation ),
