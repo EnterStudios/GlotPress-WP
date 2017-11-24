@@ -484,8 +484,8 @@ class GP_Format_Android extends GP_Format {
 	 */
 	private function plurals( $entries, $locale ) {
 		$nplurals = $locale->nplurals;
-		$mapping = array();
-		$order = $this->get_plural_order( $locale );
+		$mapping  = array();
+		$order    = $this->get_plural_order( $locale );
 
 		// Sort the entries before processing them.
 		uasort( $entries, array( $this, 'cmp_context' ) );

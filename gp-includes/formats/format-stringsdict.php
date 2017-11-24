@@ -192,7 +192,7 @@ class GP_Format_StringsDict extends GP_Format {
 	 * @return Translations|bool The extracted originals on success, false on failure.
 	 */
 	public function read_originals_from_file( $file_name ) {
-		$entries = new Translations;
+		$entries = new Translations();
 		$file    = file_get_contents( $file_name );
 
 		if ( false === $file ) {
@@ -210,7 +210,7 @@ class GP_Format_StringsDict extends GP_Format {
 				if ( preg_match( '/^\/\*\s*(.*)\s*\*\/$/', $line, $matches ) ) {
 					$matches[1] = trim( $matches[1] );
 
-					if ( "No comment provided by engineer." !== $matches[1]  ) {
+					if ( 'No comment provided by engineer.' !== $matches[1] ) {
 						$comment = $matches[1];
 					} else {
 						$comment = null;
